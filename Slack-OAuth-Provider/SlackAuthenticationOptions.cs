@@ -101,5 +101,10 @@ namespace Owin.Security.Providers.Slack
         ///     Gets or sets the type used to secure data handled by the middleware.
         /// </summary>
         public ISecureDataFormat<AuthenticationProperties> StateDataFormat { get; set; }
+
+        /// <summary>
+        /// Override the redirect uri host that is used for oauth calls. Allows use of proxies
+        /// </summary>
+        public string OverrideRedirectUriHost { get; set; }
     }
 }

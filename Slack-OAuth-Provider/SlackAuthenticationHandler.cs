@@ -76,7 +76,7 @@ namespace Owin.Security.Providers.Slack
                     return new AuthenticationTicket(null, properties);
                 }
 
-                string requestPrefix = Request.Scheme + "://" + Request.Host;
+                string requestPrefix = string.IsNullOrEmpty(Options.OverrideRedirectUriHost) ? Request.Scheme + "://" + Request.Host : Options.OverrideRedirectUriHost;
                 string redirectUri = requestPrefix + Request.PathBase + Options.CallbackPath;
 
                 // Build up the body for the token request
@@ -175,9 +175,8 @@ namespace Owin.Security.Providers.Slack
                     Request.Path +
                     Request.QueryString;
 
-                string redirectUri =
-                    baseUri +
-                    Options.CallbackPath;
+                string redirectUri = string.IsNullOrEmpty(Options.OverrideRedirectUriHost) ? 
+                    baseUri + Options.CallbackPath : Options.OverrideRedirectUriHost + Options.CallbackPath;
 
                 AuthenticationProperties properties = challenge.Properties;
                 if (string.IsNullOrEmpty(properties.RedirectUri))
